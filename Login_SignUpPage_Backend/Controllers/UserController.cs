@@ -1,4 +1,5 @@
 ﻿using Login_SignUpPage_Backend.Context;
+using Login_SignUpPage_Backend.Helpers;
 using Login_SignUpPage_Backend.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -42,7 +43,9 @@ namespace Login_SignUpPage_Backend.Controllers
         {
             if (userObj == null)
                 return BadRequest();
-
+            userObj.Password = PasswordHasher.HashPassword(userObj.Password);
+            userObj.Role = "User";
+            userObj.Token = "";
             await _authContext.Users.AddAsync(userObj);
             await _authContext.SaveChangesAsync();
 
