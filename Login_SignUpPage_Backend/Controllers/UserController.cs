@@ -30,10 +30,11 @@ namespace Login_SignUpPage_Backend.Controllers
             if (user == null)
                 return NotFound(new { Message = "User Not Found !" });
 
-            return Ok(new
-            {
-                Message = "Login Success !"
-            });
+            return Ok(
+                new
+                {
+                    Message = "Login Success !"
+                });
         }
 
         [HttpPost("register")]
@@ -46,11 +47,11 @@ namespace Login_SignUpPage_Backend.Controllers
             await _authContext.SaveChangesAsync();
 
             return Ok(
-               new
-               {
-                   Message = "User Registered!"
-               }
-                );
+                      new
+                      {
+                          Message = "User Registered!"
+                      }
+                       );
         }
 
     }
