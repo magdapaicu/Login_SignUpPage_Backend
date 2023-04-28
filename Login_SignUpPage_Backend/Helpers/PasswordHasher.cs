@@ -19,7 +19,7 @@ namespace Login_SignUpPage_Backend.Helpers
 
             var hashBytes= new byte[SaltSize + HashSize];                              // un nou sir care va stoca valoarea generata anterior
             Array.Copy(salt,0, hashBytes, 0, SaltSize);                                // valoarea de salt se copiaza in SaltSize 
-            Array.Copy(hashBytes, 0, hashBytes, SaltSize, HashSize);
+            Array.Copy(hash, 0, hashBytes, SaltSize, HashSize);
 
             var base64Hash = Convert.ToBase64String(hashBytes);
             return base64Hash;
@@ -29,8 +29,13 @@ namespace Login_SignUpPage_Backend.Helpers
         { 
          var hashBytes = Convert.FromBase64String(base64Hash);
 
-         var salt = new byte[SaltSize];
-            Array.Copy(hashBytes, 0, salt, 0, SaltSize);
+            if (hashBytes.Length < SaltSize + HashSize)
+            {
+                return false;
+            }
+
+            var salt = new byte[SaltSize];
+            Buffer.BlockCopy(hashBytes, 0, salt, 0, SaltSize);
 
             var key = new Rfc2898DeriveBytes(password, salt, Iterations);
             byte[] hash = key.GetBytes(HashSize);

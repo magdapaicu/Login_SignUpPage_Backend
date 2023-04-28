@@ -34,7 +34,7 @@ namespace Login_SignUpPage_Backend.Controllers
             if (user == null)
                 return NotFound( new { Message = "User Not Found !" });
 
-            if (!PasswordHasher.VerifyPassword(user.Password, userObj.Password))
+           if (!PasswordHasher.VerifyPassword(userObj.Password, user.Password))
             {
                 return BadRequest(new { Message = "Password is Incorect !" });
             }
